@@ -47,8 +47,8 @@ bold test [filter]         Run test suites
 
 ```
 project-root/
-├── Makefile                     # make install — set up PATH
-├── bin/bold                    # Kernel — centralized CLI runner
+├── Makefile                    # make install - set up PATH
+├── bin/bold                    # Kernel - centralized CLI runner
 │   ├── init.sh                 # Scaffolding engine (standalone or bold make:project)
 │   └── test.sh                 # Test runner
 ├── bootstrap/app.sh            # Framework initialization
@@ -114,8 +114,8 @@ bold --dry-run some-command
 
 ## License
 
-GNU General Public License v3.0 — see [LICENSE](LICENSE).
+GNU General Public License v3.0 - see [LICENSE](LICENSE).
 
 ---
 
-**BOLD ENGINEERING** — *Engineered for Defense*
+**BOLD ENGINEERING** - *Engineered for Defense*
