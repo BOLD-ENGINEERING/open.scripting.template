@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# =============================================================================
+# BOLD ENGINEERING - BOLD-Shell Framework
+# Kernel: The centralized CLI runner (Artisan-style)
+# =============================================================================
+# @meta-desc  BOLD-Shell Framework - CLI Kernel
+# @meta-cmd  bold [options] <command> [args]
+# @meta-opt  --dry-run  Log destructive actions without executing
+# @meta-opt  --no-ansi  Disable ANSI color output
+# @meta-opt  -h,--help  Display this help menu
+# @meta-opt  -V,--version  Display framework version
+# =============================================================================
+
+set -euo pipefail
+
+BOLD_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+export BOLD_ROOT
+BOLD_VERSION="1.0.0"
+export BOLD_VERSION
+
+source "${BOLD_ROOT}/bootstrap/app.sh"
+
+BOLD_DRY_RUN=false
+BOLD_NO_ANSI=false
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --dry-run) BOLD_DRY_RUN=true; shift ;;
+        --no-ansi) BOLD_NO_ANSI=true; shift ;;
+        -h|--help) bold::help; exit 0 ;;
+        -V|--version) bold::version; exit 0 ;;
+        *) break ;;
+    esac
+done
+
+export BOLD_DRY_RUN
+export BOLD_NO_ANSI
+
+bold::route "$@"
