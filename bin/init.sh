@@ -1050,7 +1050,8 @@ runner::run_all() {
 
 main() {
     local filter="${1:-}"
-    bold::title "BOLD-Shell Tests"
+    bold::line
+    bold::info "Running test suites${filter:+ (filter: ${filter})}..."
     runner::run_all "${filter}"
 }
 
