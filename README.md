@@ -9,35 +9,21 @@
 ## Quick Start
 
 ```bash
-# Install via the scaffolding engine
-bash bin/init.sh my-project
-cd my-project
+# 1. Add bin/ to your PATH for this session
+make install
 
-# Run it
-./bin/bold help
-```
+# 2. Run the follow-up command it prints, for example:
+export PATH="/path/to/your-project/bin:$PATH"
 
-### Making `bold` Available in Your Session
-
-To use `bold` without typing the full path:
-
-```bash
-# Add to current session
-eval "$(make install)"
-
-# Or add permanently to ~/.bashrc, ~/.zshrc, or config.fish:
-export PATH="$PATH:/path/to/your-project/bin"
-```
-
-Then use `bold` from anywhere:
-
-```bash
+# 3. Use bold from anywhere
 bold help
 bold make:script my-tool
-bold my-tool
+bold make:project my-project
 ```
 
-## Usage
+> **Tip:** Add the `export PATH=...` line to `~/.bashrc`, `~/.zshrc`, or `config.fish` to make `bold` permanent.
+
+### Usage
 
 ```bash
 bold [options] <command> [args]
@@ -53,14 +39,18 @@ bold help                  Display this help menu
 bold list                  List all available user scripts
 bold make:script <name>    Scaffold a new user script
 bold make:provider <name>  Scaffold a new provider
+bold make:project <name>   Scaffold a new BOLD-Shell project
+bold test [filter]         Run test suites
 ```
 
 ## Architecture
 
 ```
 project-root/
+├── Makefile                     # make install — set up PATH
 ├── bin/bold                    # Kernel — centralized CLI runner
-│   └── init.sh                 # Scaffolding engine
+│   ├── init.sh                 # Scaffolding engine (standalone or bold make:project)
+│   └── test.sh                 # Test runner
 ├── bootstrap/app.sh            # Framework initialization
 ├── core/
 │   ├── import.sh               # Dependency injection (source-once)
@@ -73,8 +63,10 @@ project-root/
 ├── config/
 │   ├── app.conf                # Framework configuration
 │   └── .env.example            # Environment template
-└── scripts/                    # User-defined scripts
-    └── your-script.sh
+├── scripts/                    # User-defined scripts
+│   └── your-script.sh
+└── tests/                      # Test suites
+    └── framework_test.sh
 ```
 
 ## Features
@@ -111,12 +103,12 @@ bold --dry-run some-command
 - [x] Centralized kernel runner (`bin/bold`)
 - [x] Service Provider pattern
 - [x] Dependency injection engine
-- [x] Scaffolding (`make:script`, `make:provider`)
+- [x] Scaffolding (`make:script`, `make:provider`, `make:project`)
 - [x] Self-documentation (`@meta-*` tags)
 - [x] `--dry-run` safety flag
+- [x] Testing framework integration (`bold test`)
 - [ ] Docker provider
 - [ ] Tailscale provider
-- [ ] Testing framework integration
 - [ ] Plugin auto-discovery
 
 ## License

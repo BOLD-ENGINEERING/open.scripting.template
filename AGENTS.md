@@ -14,11 +14,17 @@
 - **`bold::import`** sources files exactly once via `_BOLD_LOADED` associative array. Use instead of bare `source` for any framework file.
 - **`--dry-run`** is a global flag parsed *before* routing in `bin/bold`. All destructive functions (`file::delete`, `sys::execute`, etc.) guard with `bold::is_dry_run`. It is NOT a per-command flag.
 
+## CLI Routing Priority
+
+`bold::route` tries commands in this order:
+1. Built-in (`make:script`, `make:provider`, `make:project`, `test`, `list`, `help`)
+2. Provider functions (e.g. `bold proxmox:status` → `provider::proxmox::status`)
+3. User scripts (`scripts/<name>.sh` — sourced, self-executes via `main "$@"`)
+
 ## Providers
 
 - Files named `*_provider.sh` in `core/providers/` are auto-registered at boot via `provider::register_all`.
 - Providers are **registered but NOT sourced** until `provider::load` is called (lazy loading).
-- User-facing CLI commands use `:` separator: `bold proxmox:list-vms`.
 - Provider `init()` functions run on load and should detect tool availability, returning non-zero if unavailable.
 
 ## Scripts
@@ -27,11 +33,6 @@
 - `bold::run_user_script` sources the file (not a subshell). Scripts self-execute via `main "$@"` at the bottom.
 - `bold make:script <name>` generates a starter template with `chmod +x`.
 - `bold make:provider <name>` generates a provider, auto-registers it, and sets `chmod +x`.
-
-## Help System
-
-- `@meta-desc`, `@meta-opt`, `@meta-cmd` comment tags are parsed by `bold::parse_metadata` for dynamic `--help` output.
-- Every script/provider should have `@meta-desc` for proper listing.
 
 ## Testing
 
