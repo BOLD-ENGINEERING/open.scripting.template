@@ -1,6 +1,6 @@
 # BOLD-Shell Framework
 
-**Engineered for Defense** — A modular, open-source Bash scripting framework inspired by the Laravel ecosystem.
+**Engineered for Defense** - A modular, open-source Bash scripting framework inspired by the Laravel ecosystem.
 
 > Unionize fragmented scripts into a high-performance, CLI-driven architecture optimized for terminal workflows (Alacritty/Spacemacs) and server administration.
 
@@ -109,6 +109,7 @@ bold --dry-run some-command
 - [x] Testing framework integration (`bold test`)
 - [ ] Docker provider
 - [ ] Tailscale provider
+- [ ] ProxmoxVE provider
 - [ ] Plugin auto-discovery
 
 ## License
