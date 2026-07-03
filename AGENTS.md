@@ -54,3 +54,11 @@
 
 - `bold::cmd_to_func` in `core/metadata.sh:19-23` is defined but never called.
 - `core/import.sh:13-15` is a no-op guard that always passes.
+
+## Cursor Cloud specific instructions
+
+- Pure Bash project: no package manager, no build step, and no long-running service. Run directly with `./bin/bold <command>` (no need to edit `PATH`; `make install` only prints an export line).
+- Standard commands (already documented above): run = `./bin/bold help`, test = `./bin/bold test [filter]`, lint = `shellcheck -x bin/bold bootstrap/*.sh core/*.sh core/providers/*.sh`.
+- `shellcheck` is installed by the startup update script (via `apt`). `lint` currently exits non-zero because of pre-existing findings (`SC2155` in `core/utils.sh`, `SC2015` in `core/providers/proxmox_provider.sh`) — this is the repo's current state, not a regression.
+- `proxmox:*` provider commands only route when their `init()` succeeds. On the cloud VM `qm`/`pvesh`/`pct` are absent, so `init()` fails and `./bin/bold proxmox:status` returns `Unknown command` — this is expected here, not a bug.
+- Quickest end-to-end smoke test of core functionality: `./bin/bold make:script hello-world && ./bin/bold hello-world` (prints `Hello from hello-world!`), then `rm scripts/hello-world.sh` to keep the tree clean.
