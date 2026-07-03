@@ -46,7 +46,13 @@ provider::proxmox::list_containers() {
 # Usage: bold proxmox:status
 provider::proxmox::status() {
     bold::title "Proxmox Provider Status"
-    bold::info "qm:      $(sys::command_exists qm && bold::color "${BOLD_C_GREEN}" available || bold::color "${BOLD_C_RED}" unavailable)"
-    bold::info "pvesh:   $(sys::command_exists pvesh && bold::color "${BOLD_C_GREEN}" available || bold::color "${BOLD_C_RED}" unavailable)"
-    bold::info "pct:     $(sys::command_exists pct && bold::color "${BOLD_C_GREEN}" available || bold::color "${BOLD_C_RED}" unavailable)"
+    local tool status
+    for tool in qm pvesh pct; do
+        if sys::command_exists "${tool}"; then
+            status="$(bold::color "${BOLD_C_GREEN}" available)"
+        else
+            status="$(bold::color "${BOLD_C_RED}" unavailable)"
+        fi
+        bold::info "$(printf '%-8s %s' "${tool}:" "${status}")"
+    done
 }

@@ -37,7 +37,8 @@ file::move() {
 
 file::backup() {
     local file="$1"
-    local backup="${file}.bak.$(date +%s)"
+    local backup
+    backup="${file}.bak.$(date +%s)"
     if bold::is_dry_run; then
         bold::warn "[DRY-RUN] Would backup ${file} -> ${backup}"
         return 0
