@@ -57,7 +57,7 @@
 
 ## Cursor Cloud specific instructions
 
-- Pure Bash project: no package manager, no build step, and no long-running service. Run directly with `./bin/bold <command>` (no need to edit `PATH`; `make install` only prints an export line).
+- Pure Bash project: no package manager, no build step, and no long-running service. Run directly with `./bin/bold <command>`, or install globally with `bash install` / `make install` (writes `~/.local/bin/bold` and updates shell PATH).
 - Standard commands (already documented above): run = `./bin/bold help`, test = `./bin/bold test [filter]`, lint = `shellcheck -x bin/bold bootstrap/*.sh core/*.sh core/providers/*.sh`.
 - `shellcheck` is installed by the startup update script (via `apt`). `lint` should exit `0` (clean); keep it that way for any new/changed scripts.
 - `proxmox:*` provider commands only route when their `init()` succeeds. On the cloud VM `qm`/`pvesh`/`pct` are absent, so `init()` fails and `./bin/bold proxmox:status` returns `Unknown command` — this is expected here, not a bug.
