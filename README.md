@@ -10,7 +10,7 @@
 
 ```bash
 # Install bold to ~/.local/bin and update your shell PATH
-bash install
+./install
 # or: make install
 
 # Use bold from anywhere (open a new terminal first, or source ~/.bashrc)
@@ -19,7 +19,7 @@ bold make:script my-tool
 bold make:project my-project
 ```
 
-> **Tip:** Override the install location with `PREFIX=/usr/local bash install` (may require `sudo` for system paths).
+> **Tip:** Override the install location with `PREFIX=/usr/local ./install` (may require `sudo` for system paths).
 
 ### Usage
 

@@ -26,12 +26,11 @@ EOF
     echo "Installed launcher: ${launcher}"
 }
 
-bold::install::path_in_file() {
+bold::install::configured_in_file() {
     local file="$1"
-    local dir="$2"
 
     [[ -f "${file}" ]] || return 1
-    grep -qF "${dir}" "${file}" 2>/dev/null
+    grep -qF "${BOLD_INSTALL_MARKER}" "${file}" 2>/dev/null
 }
 
 bold::install::append_path() {
@@ -39,7 +38,7 @@ bold::install::append_path() {
     local dir="$2"
 
     [[ -f "${rc_file}" ]] || return 0
-    bold::install::path_in_file "${rc_file}" "${dir}" && return 0
+    bold::install::configured_in_file "${rc_file}" && return 0
 
     {
         printf '\n%s\n' "${BOLD_INSTALL_MARKER}"
