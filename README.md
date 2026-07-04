@@ -45,7 +45,7 @@ bold test [filter]         Run test suites
 
 ```
 project-root/
-├── install                     # bash install - add bold to PATH
+├── install                     # ./install - add bold to PATH
 ├── Makefile                    # make install - runs install script
 ├── bin/bold                    # Kernel - centralized CLI runner
 │   ├── init.sh                 # Scaffolding engine (standalone or bold make:project)
