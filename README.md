@@ -9,19 +9,17 @@
 ## Quick Start
 
 ```bash
-# 1. Add bin/ to your PATH for this session
-make install
+# Install bold to ~/.local/bin and update your shell PATH
+./install
+# or: make install
 
-# 2. Run the follow-up command it prints, for example:
-export PATH="/path/to/your-project/bin:$PATH"
-
-# 3. Use bold from anywhere
+# Use bold from anywhere (open a new terminal first, or source ~/.bashrc)
 bold help
 bold make:script my-tool
 bold make:project my-project
 ```
 
-> **Tip:** Add the `export PATH=...` line to `~/.bashrc`, `~/.zshrc`, or `config.fish` to make `bold` permanent.
+> **Tip:** Override the install location with `PREFIX=/usr/local ./install` (may require `sudo` for system paths).
 
 ### Usage
 
@@ -47,7 +45,8 @@ bold test [filter]         Run test suites
 
 ```
 project-root/
-├── Makefile                    # make install - set up PATH
+├── install                     # ./install - add bold to PATH
+├── Makefile                    # make install - runs install script
 ├── bin/bold                    # Kernel - centralized CLI runner
 │   ├── init.sh                 # Scaffolding engine (standalone or bold make:project)
 │   └── test.sh                 # Test runner
