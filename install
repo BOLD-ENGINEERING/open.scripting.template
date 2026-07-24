@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+# =============================================================================
+# BOLD-Shell installer — place `bold` on your PATH
+# =============================================================================
+set -euo pipefail
+
+BOLD_INSTALL_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+BOLD_INSTALL_BIN="${BOLD_INSTALL_ROOT}/bin"
+BOLD_INSTALL_TARGET="${PREFIX:-${HOME}/.local/bin}"
+BOLD_INSTALL_MARKER="# BOLD-Shell PATH"
+
+bold::install::ensure_executable() {
+    chmod +x "${BOLD_INSTALL_BIN}/bold"
+}
+
+bold::install::write_launcher() {
+    local launcher="${BOLD_INSTALL_TARGET}/bold"
+
+    mkdir -p "${BOLD_INSTALL_TARGET}"
+    cat > "${launcher}" <<EOF
+#!/usr/bin/env bash
+export BOLD_ROOT="${BOLD_INSTALL_ROOT}"
+exec "\${BOLD_ROOT}/bin/bold" "\$@"
+EOF
+    chmod +x "${launcher}"
+    echo "Installed launcher: ${launcher}"
+}
+
+bold::install::configured_in_file() {
+    local file="$1"
+
+    [[ -f "${file}" ]] || return 1
+    grep -qF "${BOLD_INSTALL_MARKER}" "${file}" 2>/dev/null
+}
+
+bold::install::append_path() {
+    local rc_file="$1"
+    local dir="$2"
+
+    [[ -f "${rc_file}" ]] || return 0
+    bold::install::configured_in_file "${rc_file}" && return 0
+
+    {
+        printf '\n%s\n' "${BOLD_INSTALL_MARKER}"
+        printf 'export PATH="%s:$PATH"\n' "${dir}"
+    } >> "${rc_file}"
+
+    echo "Added ${dir} to PATH in ${rc_file}"
+}
+
+bold::install::configure_path() {
+    bold::install::append_path "${HOME}/.bashrc" "${BOLD_INSTALL_TARGET}"
+    bold::install::append_path "${HOME}/.zshrc" "${BOLD_INSTALL_TARGET}"
+}
+
+bold::install::main() {
+    bold::install::ensure_executable
+    bold::install::write_launcher
+    bold::install::configure_path
+
+    echo ""
+    echo "BOLD-Shell installed."
+    echo "Open a new terminal, or run: source ~/.bashrc"
+    echo "Then: bold help"
+}
+
+bold::install::main "$@"
